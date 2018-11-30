@@ -49,10 +49,33 @@ int ProgrammableCalculator::_execution_count() {
   return execution_count;
 }
 
+void ProgrammableCalculator::_execution_count(int x) {
+  execution_count = x;
+}
+
 std::vector<std::string> ProgrammableCalculator::_instruction_set() {
   return instruction_set;
 }
 
-void ProgrammableCalculator::readInstructionsFromFile(char* filename) {
-  std::cout << "Inside file read - " << filename << std::endl;
+void ProgrammableCalculator::readInstructionsFromFile(std::string filename) {
+  char* file = const_cast<char*> (filename.c_str());
+
+  std::ifstream clipfile(file);
+  std::cout << "File name is : " << filename << std::endl;
+  std::string line;
+
+  if (clipfile.is_open())
+  {
+    while ( getline (clipfile,line) )
+    {
+      std::cout << line;
+      line.erase(line.size() - 2);
+      instruction_set.push_back(line.substr(3));
+      line.clear();
+    }
+    clipfile.close();
+    std::cout << "Instructions read from file : " << filename << std::endl;
+  } else {
+    std::cout <<"File not opened" << std::endl;
+  }
 }

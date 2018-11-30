@@ -1,5 +1,11 @@
+#include "ProgrammableCalculator.h"
+
 class CommandInterface {
+  private:
+    ProgrammableCalculator& pCalc;
 
   public:
-    void execute(ProgrammableCalculator& pCalc, int cmd_index);
+    // CommandInterface (int &x) : t(x) {}
+    CommandInterface(ProgrammableCalculator& pCalc) : pCalc(x) {};
+    void run_commands();
 };

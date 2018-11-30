@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 class ProgrammableCalculator {
   public:
@@ -14,9 +15,11 @@ class ProgrammableCalculator {
     double _z();
     void _z(double);
     int _current_instruction();
+    void _current_instruction(int x);
     int _execution_count();
+    void _execution_count(int x);
     std::vector<std::string> _instruction_set();
-    void readInstructionsFromFile(char* filename);
+    void readInstructionsFromFile(std::string filename);
 
   private:
     std::vector<std::string> instruction_set;
