@@ -17,4 +17,5 @@ class CalculatorInterface {
     void command_r();
     void command_d();
     void command_p();
+    void command_c();
 };

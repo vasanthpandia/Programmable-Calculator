@@ -23,6 +23,7 @@ void CalculatorInterface::start() {
         }
         break;
       case 'd' : std::cout << "d pressed" << std::endl;
+        command_d();
         break;
       case 'r' : {
           std::cout << "r pressed" << std::endl;
@@ -30,6 +31,7 @@ void CalculatorInterface::start() {
         }
         break;
       case 'c' : std::cout << "c pressed" << std::endl; 
+        command_c();
         break;
       case 'p' : {
         std::cout << "p pressed" << std::endl;
@@ -59,7 +61,6 @@ void CalculatorInterface::displayMessage() {
 
 void CalculatorInterface::command_i() {
   std::string filename = input.substr(2);
-  std::cout << "Filename is : " << filename << std::endl;
   instructions.readInstructionsFromFile(filename);
   std::vector<std::string> vector1 = instructions._instruction_set();
   for(int i = 0 ; i < vector1.size(); i++) {
@@ -78,4 +79,8 @@ void CalculatorInterface::command_d() {
 void CalculatorInterface::command_p() {
   instructions.print_instructions();
   instructions.display_registers();
+}
+
+void CalculatorInterface::command_c() {
+  instructions.continue_execution();
 }

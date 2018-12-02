@@ -5,6 +5,12 @@
 #include <math.h>
 #include <iterator>
 
+#include "Add.h"
+#include "Subtract.h"
+#include "Multiply.h"
+#include "Divide.h"
+#include "Power.h"
+
 class Instruction : public ProgrammableCalculator {
   public:
     Instruction();
@@ -17,4 +23,5 @@ class Instruction : public ProgrammableCalculator {
     double get_value(std::string);
     double evaluate_rhs(std::string);
     std::vector<std::string> split(std::string);
+    void continue_execution();
 };

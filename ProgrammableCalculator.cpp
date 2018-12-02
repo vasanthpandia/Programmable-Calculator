@@ -78,7 +78,6 @@ void ProgrammableCalculator::readInstructionsFromFile(std::string filename) {
       line.clear();
     }
     clipfile.close();
-    std::cout << "Instructions read from file : " << filename << std::endl;
   } else {
     std::cout <<"File not opened" << std::endl;
   }
