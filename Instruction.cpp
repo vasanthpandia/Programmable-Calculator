@@ -3,12 +3,15 @@
 Instruction::Instruction() {}
 
 void Instruction::execute_all() {
-  while(_current_instruction() < 100) {
+  std::cout << "Inside execute all" << std::endl;
+  while(_execution_count() < 100 && _current_instruction() < _instruction_set().size()) {
     execute(_instruction_set()[_current_instruction()]);
+    _execution_count(_execution_count() + 1);
   }
 }
 
 void Instruction::execute(std::string cmd) {
+  std::cout << "Inside execute" << std::endl;
   switch(cmd[2]) {
     case '=' : assign_to(cmd[0], cmd.substr(4));
       break;
@@ -16,25 +19,43 @@ void Instruction::execute(std::string cmd) {
       break;
     default: std::cout << "Invalid operation" << std::endl;
   }
-  _current_instruction(_current_instruction() + 1);
+  
+  std::cout << "Next instruction evaluated" << std::endl;
 }
 
-// void Instruction::debug()
+void Instruction::debug() {
+  if(_current_instruction() < 100) {
+    std::cout << "Instruction to be executed : " << _instruction_set()[_current_instruction()] << std::endl;
+    execute(_instruction_set()[_current_instruction()]);
+  }
+  display_registers();
+  std::cout << "Current Instruction executed - index : " << _current_instruction() << std::endl;
+}
 
 void Instruction::assign_to(char reg, std::string rhs) {
   //to-do
   std::cout << "Assign" << std::endl;
   switch(reg) {
-    case 'w' : _w(evaluate_rhs(rhs));
+    case 'w' : 
+      _w(evaluate_rhs(rhs));
+      std::cout << "W : " << _w() << std::endl;
       break;
-    case 'x' : _x(evaluate_rhs(rhs));
+    case 'x' : 
+      _x(evaluate_rhs(rhs));
+      std::cout << "X : " << _x() << std::endl;
       break;
-    case 'y' : _y(evaluate_rhs(rhs));
+    case 'y' : 
+      std::cout << "Y : " << _y() << std::endl;
+      _y(evaluate_rhs(rhs));
       break;
-    case 'z' : _z(evaluate_rhs(rhs));
+    case 'z' : 
+      std::cout << "Z : " << _z()  << std::endl;
+      _z(evaluate_rhs(rhs));
       break;
     default : std::cout << "Invalid operand" << std::endl;
   }
+  int next_instruction_index = _current_instruction() + 1;
+  _current_instruction(next_instruction_index);
 }
 
 double Instruction::evaluate_rhs(std::string rhs) {
@@ -42,26 +63,34 @@ double Instruction::evaluate_rhs(std::string rhs) {
   double result;
   std::vector<std::string> expression_tokens = split(rhs);
 
+  std::cout << "Inside evaluate RHS" << std::endl;
+
   if(expression_tokens.size() == 1) {
     std::stringstream ss(expression_tokens[0]);
     ss >> result;
+    std::cout << "Result is : " << result << std::endl;
   } else {
     double op1 = get_value(expression_tokens[0]);
     double op2 = get_value(expression_tokens[2]);
     std::string op = expression_tokens[1];
     if(op == "*") {
       std::cout << "* called" << std::endl;
+      result = (op1 * op2);
       //to-do
     } else if(op == "**") {
+      result = pow(op1, op2);
       std::cout << "** called" << std::endl;
       //to-do
     } else if(op == "+") {
+      result = (op1 + op2);
       std::cout << "+ called" << std::endl;
       //to-do
     } else if(op == "-") {
+      result = (op1 - op2);
       std::cout << "- called" << std::endl;
       //to-do
     } else if(op == "/") {
+      result = (op1 / op2);
       std::cout << "/ called" << std::endl;
       //to-do
     } else {
@@ -81,7 +110,10 @@ void Instruction::conditional(char reg1, std::string rhs) {
   ss >> next_instruction;
   registerval = get_register_value(reg1);
   if(registerval != 0) {
-    _current_instruction(next_instruction);
+    _current_instruction(next_instruction - 1);
+  } else {
+    int next_instruction_index = _current_instruction() + 1;
+    _current_instruction(next_instruction_index);
   }
 }
 
@@ -125,18 +157,14 @@ double Instruction::get_register_value(char reg) {
 std::vector<std::string> Instruction::split(std::string rhs)
 {
     std::vector<std::string> result;
-    std::string st;
 
-    for(int i = 0; i < rhs.length(); ++i) {
-      if(rhs[i] != ' ')
-        {
-            st += std::string(1, rhs[i]);
-        }
-        else if(rhs[i] == ' ')
-        {
-            result.push_back(st);
-            st.clear();
-        }
+    std::istringstream iss(rhs);
+    std::copy(std::istream_iterator<std::string>(iss),
+      std::istream_iterator<std::string>(),
+        std::back_inserter(result));
+    
+    for(int i = 0 ; i < result.size(); i++ ) {
+      std::cout << "result - " << result[i] << std::endl;
     }
 
     return result;

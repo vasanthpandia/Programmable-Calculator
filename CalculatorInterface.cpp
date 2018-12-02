@@ -24,9 +24,17 @@ void CalculatorInterface::start() {
         break;
       case 'd' : std::cout << "d pressed" << std::endl;
         break;
-      case 'r' : std::cout << "r pressed" << std::endl;
+      case 'r' : {
+          std::cout << "r pressed" << std::endl;
+          command_r();
+        }
         break;
       case 'c' : std::cout << "c pressed" << std::endl; 
+        break;
+      case 'p' : {
+        std::cout << "p pressed" << std::endl;
+        command_p();
+      }
         break;
       case 'q' : {
         std::cout << "Thank you" << std::endl;
@@ -57,4 +65,17 @@ void CalculatorInterface::command_i() {
   for(int i = 0 ; i < vector1.size(); i++) {
     std::cout << vector1[i] << std::endl;
   }
+}
+
+void CalculatorInterface::command_r() {
+  instructions.execute_all();
+}
+
+void CalculatorInterface::command_d() {
+  instructions.debug();
+}
+
+void CalculatorInterface::command_p() {
+  instructions.print_instructions();
+  instructions.display_registers();
 }

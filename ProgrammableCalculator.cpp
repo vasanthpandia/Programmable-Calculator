@@ -45,6 +45,10 @@ int ProgrammableCalculator::_current_instruction() {
   return current_instruction;
 }
 
+void ProgrammableCalculator::_current_instruction(int x) {
+  current_instruction = x;
+}
+
 int ProgrammableCalculator::_execution_count() {
   return execution_count;
 }
@@ -78,4 +82,17 @@ void ProgrammableCalculator::readInstructionsFromFile(std::string filename) {
   } else {
     std::cout <<"File not opened" << std::endl;
   }
+}
+
+void ProgrammableCalculator::print_instructions() {
+  for(int i = 0; i < instruction_set.size(); i++) {
+    std::cout << i+1 << ": " << instruction_set[i] << std::endl;
+  }
+}
+
+void ProgrammableCalculator::display_registers() {
+  std::cout << "W : " << w << std::endl;
+  std::cout << "X : " << x << std::endl;
+  std::cout << "Y : " << y << std::endl;
+  std::cout << "Z : " << z << std::endl;
 }
